@@ -1,0 +1,31 @@
+#include <xc.h>
+
+//#pragma config LVP=OFF
+
+void msdelay (unsigned int time);
+
+void main() {
+    //ADCON1 = 0x0F; // Configure A/D converter for digital I/O
+    TRISD= 0x00;    // Set PORTD as output
+    unsigned char constant;
+    while(1) {
+        for (int i = 7; i >=0 ; i--) { 
+            constant = 0xFF >> i; // Turn on one LED at a time
+            //msdelay(250);
+            for(int j=7-i;j<=7;j++)
+            {
+                PORTD=0x01<<j|constant; // Turn on one LED at a time
+                msdelay(150);
+                PORTD = constant; // Turn off all LEDs
+                msdelay(150);
+            }
+
+        }
+    }
+}
+
+void msdelay (unsigned int time) {
+    unsigned int i,j;
+    for (i=0; i< time; i++)
+        for(j=0; j<710; j++);
+}
