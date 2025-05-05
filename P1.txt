@@ -1,0 +1,26 @@
+#include <xc.h> //Used to include XC compiler file
+
+#pragma config LVP=OFF //Allows PIC16 MCU to be programmed only with Vdd
+
+void msdelay (unsigned int time);
+
+void main() 
+{
+    ADCON1 = 0x0F; // Configure A/D converter for digital I/O
+    TRISD= 0x00;    // Set PORTD as output
+    while(1) 
+    {
+        PORTD=0xFF; //Turn ON all LEDs
+        msdelay(250);
+        
+        PORTD=0x00; //Turn OFF all LEDs
+        msdelay(250);
+    }
+}
+
+void msdelay (unsigned int time) {
+    unsigned int i,j;
+    for (i=0; i< time; i++)
+        for(j=0; j<710; j++);
+}
+
