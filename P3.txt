@@ -1,0 +1,75 @@
+#include "newxc8_header.h"
+
+#pragma config FOSC = HS        
+// Oscillator Selection bits (HS oscillator: High-speed crystal/resonator on RA6/OSC2/CLKOUT and RA7/OSC1/CLKIN)
+#pragma config WDTE = OFF       
+// Watchdog Timer Enable bit (WDT disabled and can be enabled by SWDTEN bit of the WDTCON register)
+
+//Function Definitions
+void msdelay (unsigned int time)//Function for delay
+{
+unsigned int i, j;
+ for (i = 0; i < time; i++)
+	 for (j = 0; j < 710; j++);	//Calibrated for a 1 ms delay in MPLAB
+}
+
+void main()
+{ 
+	ANSEL = 0x00;
+    ANSELH = 0x00;
+    TRISCbits.TRISC0 = 0 ;	// Set PORTC, RC0 as output (DCM IN1)
+	TRISCbits.TRISC1 = 0 ;	// Set PORTC, RC1 as output (DCM IN2)	
+	TRISCbits.TRISC2 = 0 ;	// Set PORTC, RC2 as output (DCM EN1)
+    TRISCbits.TRISC3 = 0 ;	// Set PORTC, RC3 as output (DCM EN2)
+	TRISCbits.TRISC4 = 0 ;	// Set PORTC, RC4 as output (DCM IN3)	
+	TRISCbits.TRISC5 = 0 ;	// Set PORTC, RC5 as output (DCM IN4)
+   
+	PORTCbits.RC0 = 0;	
+    PORTCbits.RC1 = 0;
+    PORTCbits.RC2 = 0;
+    PORTCbits.RC3 = 0;
+   
+  while(1)	// Endless Loop
+	{
+        PORTCbits.RC0 = 1;
+        PORTCbits.RC1 = 0;
+        PORTCbits.RC2 = 1;	
+		msdelay(1000);
+        
+        PORTCbits.RC0 = 0;	
+        PORTCbits.RC1 = 0;
+        PORTCbits.RC2 = 0;	
+        msdelay(1000);
+        
+        PORTCbits.RC0 = 0;	
+        PORTCbits.RC1 = 1;
+        PORTCbits.RC2 = 1;
+        msdelay(1000);
+        
+        PORTCbits.RC0 = 0;	
+        PORTCbits.RC1 = 0;
+        PORTCbits.RC2 = 0;
+        msdelay(1000);
+        
+         PORTCbits.RC3 = 1;
+        PORTCbits.RC4 = 0;
+        PORTCbits.RC5 = 1;	
+		msdelay(1000);
+        
+        PORTCbits.RC3 = 0;	
+        PORTCbits.RC4 = 0;
+        PORTCbits.RC5 = 0;	
+        msdelay(1000);
+        
+        PORTCbits.RC3 = 0;	
+        PORTCbits.RC4 = 1;
+        PORTCbits.RC5 = 1;
+        msdelay(1000);
+        
+        PORTCbits.RC3 = 0;	
+        PORTCbits.RC4 = 0;
+        PORTCbits.RC5 = 0;
+        msdelay(1000);
+ 	}
+}
+
